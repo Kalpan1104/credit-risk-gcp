@@ -47,7 +47,7 @@ bind_project "$RUNTIME_SA"  roles/bigquery.jobUser
 bind_project "$RUNTIME_SA"  roles/logging.logWriter
 # deployer (GitHub Actions): deploy functions, act as the runtime + build accounts, write the registry
 bind_project "$DEPLOYER_SA" roles/cloudfunctions.developer
-bind_project "$DEPLOYER_SA" roles/run.developer
+bind_project "$DEPLOYER_SA" roles/run.admin
 bind_bucket  "$DEPLOYER_SA" roles/storage.objectAdmin
 for target in "$RUNTIME_SA" "$COMPUTE_SA"; do
   gcloud iam service-accounts add-iam-policy-binding "$target" \
