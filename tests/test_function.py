@@ -9,9 +9,9 @@ import pytest
 flask = pytest.importorskip("flask")
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "function"))
 
-from credit_risk import config as C  # noqa: E402
-from credit_risk.model import reference_profile  # noqa: E402
-from credit_risk.registry import Registry  # noqa: E402
+from credit_risk import config as C
+from credit_risk.model import reference_profile
+from credit_risk.registry import Registry
 
 
 @pytest.fixture

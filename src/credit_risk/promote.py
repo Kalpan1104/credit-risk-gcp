@@ -78,8 +78,8 @@ def promote(registry, version=None, force=False):
     cand_eval, champ_eval, eval_name = evaluation_sets(registry, cand, current)
     approved, reasons = gate(cand, cand_eval, champ_eval)
     lines = [f"## Promotion decision for {version}", "",
-             f"Checks on the fixed holdout: AUC {cand['auc']}, KS {cand['ks']}, "
-             f"adverse impact ratio under-30 {cand['air_under_30']} / 62+ {cand['air_62_plus']}", "",
+             (f"Checks on the fixed holdout: AUC {cand['auc']}, KS {cand['ks']}, "
+              f"adverse impact ratio under-30 {cand['air_under_30']} / 62+ {cand['air_62_plus']}"), "",
              f"Comparison on **{eval_name}**:", "", "| Metric | Candidate | Champion |", "|---|---|---|"]
     for k in ["brier", "auc", "calibration_gap", "approval_rate", "approved_default_rate"]:
         lines.append(f"| {k} | {cand_eval.get(k)} | {champ_eval.get(k) if champ_eval else '-'} |")
@@ -101,7 +101,7 @@ def rollback(registry):
     if not pointer or not pointer.get("previous"):
         raise SystemExit("Nothing to roll back to.")
     registry.set_champion(pointer["previous"], pointer["version"], f"rollback from {pointer['version']}")
-    report([f"## Rollback", "", f"**↩️ {pointer['previous']} is the champion again** (was {pointer['version']})"])
+    report(["## Rollback", "", f"**↩️ {pointer['previous']} is the champion again** (was {pointer['version']})"])
 
 
 if __name__ == "__main__":

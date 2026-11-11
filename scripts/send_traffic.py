@@ -14,8 +14,8 @@ from collections import Counter
 import requests
 
 sys.path.insert(0, "src")
-from credit_risk import config as C  # noqa: E402
-from credit_risk.data import generate  # noqa: E402
+from credit_risk import config as C
+from credit_risk.data import generate
 
 
 def gcloud(*args):

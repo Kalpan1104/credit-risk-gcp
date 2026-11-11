@@ -3,8 +3,7 @@ import pandas as pd
 import pytest
 
 from credit_risk import config as C
-from credit_risk.model import (coefficient_signs, decide, evaluate, predict_pd, reason_codes,
-                               reference_profile, to_score)
+from credit_risk.model import coefficient_signs, decide, evaluate, predict_pd, reason_codes, reference_profile, to_score
 
 
 def test_holdout_quality(bundle, holdout_df):

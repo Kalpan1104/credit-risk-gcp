@@ -56,8 +56,8 @@ def to_markdown(result, champion, window_hours):
         return f"# Monitoring report\n\n{result['note']} (got {result['n']} in the last {window_hours} h).\n"
     icon = {"ok": "🟢", "warn": "🟡", "alert": "🔴", "info": "ℹ️"}
     lines = ["# Monitoring report", "",
-             f"Champion **{champion}** · {result['n']} applications in the last {window_hours} h · "
-             f"versions seen: {', '.join(result['model_versions'])}", "",
+             (f"Champion **{champion}** · {result['n']} applications in the last {window_hours} h · "
+              f"versions seen: {', '.join(result['model_versions'])}"), "",
              "| Check | Value | Status |", "|---|---|---|"]
     for name, c in result["checks"].items():
         extra = f" (live {c['live']} vs training {c['training']})" if "live" in c else (

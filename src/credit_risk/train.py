@@ -28,7 +28,7 @@ def git_sha():
     try:
         return subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], text=True,
                                        stderr=subprocess.DEVNULL).strip()
-    except Exception:
+    except (OSError, subprocess.CalledProcessError):   # git missing, or not a git checkout
         return "unknown"
 
 
