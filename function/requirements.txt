@@ -1,0 +1,9 @@
+# Runtime for the Cloud Run functions. Model libraries are pinned to the SAME versions used for
+# training (requirements.txt), because a pickled scikit-learn model must be loaded by the version that saved it.
+functions-framework>=3.5,<4
+google-cloud-storage>=2.16,<3
+google-cloud-bigquery>=3.20,<4
+numpy==2.1.3
+pandas==2.2.3
+scikit-learn==1.5.2
+joblib==1.4.2

@@ -1,0 +1,10 @@
+[
+  {"name": "request_id", "type": "STRING", "mode": "REQUIRED"},
+  {"name": "ts", "type": "TIMESTAMP", "mode": "REQUIRED"},
+  {"name": "model_version", "type": "STRING", "mode": "REQUIRED"},
+  {"name": "pd", "type": "FLOAT", "mode": "REQUIRED", "description": "predicted probability of default"},
+  {"name": "score", "type": "INTEGER", "mode": "REQUIRED", "description": "300-850, higher is safer"},
+  {"name": "decision", "type": "STRING", "mode": "REQUIRED"},
+  {"name": "features", "type": "STRING", "mode": "NULLABLE", "description": "applicant inputs as JSON"},
+  {"name": "reasons", "type": "STRING", "mode": "REPEATED"}
+]

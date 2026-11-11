@@ -1,0 +1,49 @@
+name: Retrain and gate
+
+# Manually triggered (Actions -> Retrain and gate -> Run workflow). Trains a new version into the
+# Cloud Storage registry, runs the promotion gate, and, if it passes, moves champion.json.
+# The running score function picks up the new champion within a minute; nothing is redeployed.
+on:
+  workflow_dispatch:
+    inputs:
+      regime:
+        description: "Training data: normal, or downturn (adds post-shock applications; compared on recent data)"
+        type: choice
+        options: [normal, downturn]
+        default: normal
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: registry
+  cancel-in-progress: false
+
+jobs:
+  retrain:
+    runs-on: ubuntu-latest
+    env:
+      REGISTRY: gs://${{ vars.GCS_BUCKET }}/registry
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt && pip install --no-deps -e .
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.WIF_PROVIDER }}
+          service_account: ${{ vars.DEPLOYER_SA }}
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Train (registers a new version, does not deploy it)
+        id: train
+        run: python -m credit_risk.train --registry "$REGISTRY" --regime "${{ inputs.regime }}"
+
+      - name: Promotion gate
+        run: python -m credit_risk.promote --registry "$REGISTRY" --version "${{ steps.train.outputs.version }}"
+
+      - name: Model card in the run summary
+        run: gcloud storage cat "$REGISTRY/versions/${{ steps.train.outputs.version }}/model_card.md" >> "$GITHUB_STEP_SUMMARY"

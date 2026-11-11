@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_call:           # reused by deploy.yml so nothing deploys without passing tests
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements*.txt
+      - run: pip install -r requirements-dev.txt && pip install --no-deps -e .
+      - name: Lint
+        run: ruff check src tests function scripts
+      - name: Tests (no cloud credentials needed)
+        run: pytest
+      - name: Check function and training pins match
+        run: |
+          for pkg in numpy pandas scikit-learn joblib; do
+            a=$(grep -E "^${pkg}==" requirements.txt); b=$(grep -E "^${pkg}==" function/requirements.txt)
+            [ "$a" = "$b" ] || { echo "::error::$pkg pinned differently: '$a' vs '$b'"; exit 1; }
+          done

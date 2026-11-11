@@ -1,0 +1,20 @@
+{
+  "applicants": [
+    {
+      "application_id": "demo-001",
+      "age": 45,
+      "annual_income": 60900.0,
+      "employment_years": 5.5,
+      "home_ownership": "mortgage",
+      "purpose": "debt_consolidation",
+      "loan_amount": 18700.0,
+      "term_months": 60,
+      "dti": 27.3,
+      "credit_utilization": 0.376,
+      "credit_history_years": 19.3,
+      "delinquencies_2y": 0,
+      "inquiries_6m": 1,
+      "open_accounts": 8
+    }
+  ]
+}
