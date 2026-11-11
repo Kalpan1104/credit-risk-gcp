@@ -12,7 +12,8 @@ gcloud services enable \
   cloudfunctions.googleapis.com run.googleapis.com cloudbuild.googleapis.com \
   artifactregistry.googleapis.com storage.googleapis.com bigquery.googleapis.com \
   cloudscheduler.googleapis.com logging.googleapis.com compute.googleapis.com \
-  iam.googleapis.com iamcredentials.googleapis.com sts.googleapis.com
+  iam.googleapis.com iamcredentials.googleapis.com sts.googleapis.com \
+  cloudresourcemanager.googleapis.com
 
 step "2/7 Cloud Storage bucket gs://${BUCKET} (model registry + reports)"
 exists gcloud storage buckets describe "gs://${BUCKET}" || \
