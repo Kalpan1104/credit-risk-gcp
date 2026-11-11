@@ -51,7 +51,7 @@ class ModelCache:
                             trained_with=bundle.get("sklearn_version"), running=sklearn.__version__)
                     self.bundle, self.version = bundle, pointer["version"]
                     log("INFO", "loaded champion model", version=self.version)
-            except Exception as e:  # keep serving the model we have
+            except Exception as e:  # noqa: BLE001 - any failure (network, auth, bad file) must keep the old model serving
                 log("ERROR", "could not refresh champion", error=str(e), still_serving=self.version)
         if self.bundle is None:
             raise NoChampion("No champion model yet. Train and promote one first.")
@@ -93,7 +93,7 @@ def score_payload(payload, cache, sink):
                      "score": int(scores[i]), "decision": decision, "features": feats, "reasons": reasons[i]})
     try:
         sink.write(rows)
-    except Exception as e:  # never fail a credit decision because logging failed, but make it loud
+    except Exception as e:  # noqa: BLE001 - never fail a credit decision because logging failed; log it loudly
         log("ERROR", "prediction logging failed", error=str(e), n=len(rows))
     return 200, {"model_version": version, "results": results}
 
